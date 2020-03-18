@@ -14,20 +14,20 @@ public abstract class Account implements IBaseRate{
 	//Constructor to set base properties and initialize the account
 	public Account(String name, int sSN, double initDeposit) {
 		String fullName[] = name.split(" ");
-		this.firstName = fullName[0];
-		this.lastName = fullName[1];
+		firstName = fullName[0];
+		lastName = fullName[1];
 		this.sSN = sSN;
 		balance = initDeposit;
-		System.out.println("First name: " + firstName);
-		System.out.println("Last name: " + lastName);
-		System.out.println("SSN: " + sSN);
-		System.out.println("Balance: " + balance);
-		this.accountNum = setAccountNumber(sSN);
+		//System.out.println("First name: " + firstName);
+		//System.out.println("Last name: " + lastName);
+		//System.out.println("SSN: " + sSN);
+		//System.out.println("Balance: " + balance);
+		accountNum = setAccountNumber(sSN);
 		
 	}
 	// List common methods
 	
-	public String setAccountNumber(int sSN) {
+	private String setAccountNumber(int sSN) {
 		int lastTwoOfSSN = (sSN%100 - sSN%10) + sSN%10;
 		int uniqueID = index++;
 		int randomNumber = (int)(Math.random()*Math.pow(10, 3));
@@ -36,19 +36,22 @@ public abstract class Account implements IBaseRate{
 	
 	
 	
-	public void deposit(){
+	private void deposit(){
 		
 	}
 	
-	public int withdraw(){
+	private int withdraw(){
 		return 0;
 	}
 	
-	public void transfer() {
+	private void transfer() {
 		
 	}
 	
 	public void showInfo() {
-		
+		System.out.println("Name: " + firstName + " " + 
+						lastName + "\nAccount Number: " 
+						+ accountNum + "\nBalance: $" 
+						+ balance); 
 	}
 }
