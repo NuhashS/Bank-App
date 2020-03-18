@@ -17,6 +17,7 @@ public class CSV {
 				String[] dataRecords = dataRow.split(",");
 				data.add(dataRecords);
 			}
+			br.close();
 			
 		} catch (FileNotFoundException e) {
 			System.out.println("COULD NOT FIND FILE");
