@@ -8,9 +8,7 @@ public class Savings extends Account{
 	//Constructor to initialize settings for the Savings properties
 	public Savings(String name, int sSN, double initDeposit) {
 		super(name, sSN, initDeposit);
-		accountNum = "1" + accountNum;
-		//System.out.println("New Savings Account");
-		//System.out.println(accountNum);
+		this.accountNum = "1" + accountNum;
 		setSafetyDepositBox();
 	}
 	
@@ -19,6 +17,14 @@ public class Savings extends Account{
 		safetyDepositBoxKey = (int)(Math.random()*Math.pow(10, 4));
 	}
 	//List any methods specific to savings account
+	
+	@Override
+	public void setRate() {
+		//System.out.print("Implement Rate for Chequing: ");
+		rate = getBaseRate()-.25;
+		//System.out.println(rate);
+	}
+	
 	public void showInfo() {
 		super.showInfo();
 		System.out.println("Account Type: Savings");

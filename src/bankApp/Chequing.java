@@ -9,7 +9,7 @@ public class Chequing extends Account{
 	//Call Constructor to initialize Chequing account properties
 	public Chequing(String name, int sSN, double initDeposit) {
 		super(name, sSN, initDeposit);
-		accountNum = "2" + accountNum;
+		this.accountNum = "2" + accountNum;
 		//System.out.println("New Chequing Account");
 		//System.out.println(accountNum);
 		setDebitCard();
@@ -18,6 +18,13 @@ public class Chequing extends Account{
 	private void setDebitCard() {
 		debitCardNum = (int)(Math.random()*Math.pow(10,12));
 		debitCardPIN = (int)(Math.random()*Math.pow(10,4));
+	}
+	
+	@Override
+	public void setRate() {
+		//System.out.print("Implement Rate for Chequing: ");
+		rate = getBaseRate()*.15;
+		//System.out.println(rate);
 	}
 	
 	public void showInfo() {

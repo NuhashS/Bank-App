@@ -7,7 +7,7 @@ public class BankApplication {
 
 		Chequing chqacc1 = new Chequing("John Smith", 123456789, 15000);
 		
-		Savings savacc1 = new Savings("Rich Lowe", 987654321, 321);
+	 	Savings savacc1 = new Savings("Rich Lowe", 987654321, 321);
 		//
 		savacc1.showInfo();
 		System.out.println("########################");
