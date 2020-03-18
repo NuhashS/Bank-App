@@ -2,8 +2,8 @@ package bankApp;
 
 public class Savings extends Account{
 	//List properties specific to the Savings account
-	int safetyDepositBoxID;
-	int safetyDepositBoxKey;
+	private int safetyDepositBoxID;
+	private int safetyDepositBoxKey;
 	
 	//Constructor to initialize settings for the Savings properties
 	public Savings(String name, int sSN, double initDeposit) {
@@ -20,9 +20,7 @@ public class Savings extends Account{
 	
 	@Override
 	public void setRate() {
-		//System.out.print("Implement Rate for Chequing: ");
 		rate = getBaseRate()-.25;
-		//System.out.println(rate);
 	}
 	
 	public void showInfo() {

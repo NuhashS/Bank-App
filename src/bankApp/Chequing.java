@@ -2,8 +2,8 @@ package bankApp;
 
 public class Chequing extends Account{
 	//List properties specific to Chequing account
-	int debitCardNum;
-	int debitCardPIN;
+	private int debitCardNum;
+	private int debitCardPIN;
 	//List any methods specific to Chequing account
 	
 	//Call Constructor to initialize Chequing account properties
@@ -22,9 +22,7 @@ public class Chequing extends Account{
 	
 	@Override
 	public void setRate() {
-		//System.out.print("Implement Rate for Chequing: ");
 		rate = getBaseRate()*.15;
-		//System.out.println(rate);
 	}
 	
 	public void showInfo() {
