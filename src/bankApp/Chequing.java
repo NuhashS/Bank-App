@@ -10,14 +10,19 @@ public class Chequing extends Account{
 	public Chequing(String name, int sSN, double initDeposit) {
 		super(name, sSN, initDeposit);
 		this.accountNum = "2" + accountNum;
-		//System.out.println("New Chequing Account");
-		//System.out.println(accountNum);
 		setDebitCard();
 	}
 	
 	private void setDebitCard() {
 		debitCardNum = (int)(Math.random()*Math.pow(10,12));
 		debitCardPIN = (int)(Math.random()*Math.pow(10,4));
+	}
+	
+	public int[] checkDebitInfo() {
+		int[] debitInfo = new int[2];
+		debitInfo[0] = debitCardNum;
+		debitInfo[1] = debitCardPIN;
+		return debitInfo;
 	}
 	
 	@Override

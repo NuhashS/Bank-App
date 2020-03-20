@@ -39,23 +39,23 @@ public abstract class Account implements IBaseRate{
 	
 	public void deposit(double amount){
 		balance = balance + amount;
-		System.out.println("Depositing " + amount);
+		System.out.println("Depositing $" + amount);
 		printBalance();
 	}
 	
 	public void withdraw(double amount){
 		balance = balance - amount;
-		System.out.println("Withdrawing " + amount);
+		System.out.println("Withdrawing $" + amount);
 		printBalance();
 	}
 	
-	public void transfer(String toWhere, double amount) {
+	public void transfer(String fromWhere, String toWhere, double amount) {
 		balance = balance + amount;
-		System.out.println("Tranfering $" + amount + " to " + toWhere);
+		System.out.println("Tranfering $" + amount + " from " + fromWhere + " to " + toWhere);
 	}
 	
 	public void printBalance() {
-		System.out.println("Your balance is: " + balance);
+		System.out.println("Your balance is: $" + balance);
 	}
 	
 	public void showInfo() {
@@ -63,5 +63,9 @@ public abstract class Account implements IBaseRate{
 						lastName + "\nAccount Number: " 
 						+ accountNum + "\nBalance: $" 
 						+ balance + "\nRate: " + rate + "%"); 
+	}
+	
+	public String findAccountName() {
+		return firstName;
 	}
 }
