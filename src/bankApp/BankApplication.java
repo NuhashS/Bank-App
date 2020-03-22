@@ -96,8 +96,19 @@ public class BankApplication {
 			System.out.println("How much would you like to deposit:");
 			double amount = in.nextDouble();
 			accounts.get(1).deposit(amount);
-			System.out.println("Is that everything for today?");
+			System.out.println("Would you like to perform another transaction?");
 			answer = in.next();
+			if(answer.equals("Y") || answer.equals("Yes")) {
+				transaction(accounts);
+			}
+			else if(answer.equals("N") || answer.equals("No")) {
+				return;
+			}
+			
+			else {
+				System.out.println("Invalid option");
+				return;
+			}
 		}
 
 		else if(answer.equals("W")) {
