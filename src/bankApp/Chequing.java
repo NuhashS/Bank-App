@@ -2,7 +2,7 @@ package bankApp;
 
 public class Chequing extends Account{
 	//List properties specific to Chequing account
-	private int debitCardNum;
+	private long debitCardNum;
 	private int debitCardPIN;
 	//List any methods specific to Chequing account
 	
@@ -14,14 +14,15 @@ public class Chequing extends Account{
 	}
 	
 	private void setDebitCard() {
-		debitCardNum = (int)(Math.random()*Math.pow(10,12));
-		debitCardPIN = (int)(Math.random()*Math.pow(10,4));
+		debitCardNum = (long)(Math.random()*Math.pow(10, 12));
+		debitCardPIN = (int)(Math.random()*Math.pow(10, 4));
 	}
 	
-	public int[] checkDebitInfo() {
-		int[] debitInfo = new int[2];
-		debitInfo[0] = debitCardNum;
-		debitInfo[1] = debitCardPIN;
+	@Override
+	public long[] loginInfo() {
+		long[] debitInfo = new long[2];
+		debitInfo[0] = 720753854098L;
+		debitInfo[1] = 1234;
 		return debitInfo;
 	}
 	

@@ -1,5 +1,7 @@
 package bankApp;
 
+import java.util.Random;
+
 public abstract class Account implements IBaseRate{
 	//List common properties for Savings and Chequing accounts
 	protected double rate;
@@ -36,6 +38,8 @@ public abstract class Account implements IBaseRate{
 	}
 	
 	public abstract void setRate();
+	
+	public abstract long[] loginInfo();
 	
 	public void deposit(double amount){
 		balance = balance + amount;

@@ -23,6 +23,14 @@ public class Savings extends Account{
 		rate = getBaseRate()-.25;
 	}
 	
+	@Override
+	public long[] loginInfo() {
+		long[] safetyDepositBoxInfo = new long[2];
+		safetyDepositBoxInfo[0] = safetyDepositBoxID;
+		safetyDepositBoxInfo[1] = safetyDepositBoxKey;
+		return safetyDepositBoxInfo;
+	}
+	
 	public void showInfo() {
 		super.showInfo();
 		System.out.println("Account Type: Savings");
