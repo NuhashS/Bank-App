@@ -1,5 +1,7 @@
 package bankApp;
 
+import java.util.List;
+
 public class Chequing extends Account{
 	//List properties specific to Chequing account
 	private long debitCardNum;
@@ -21,7 +23,7 @@ public class Chequing extends Account{
 	@Override
 	public long[] loginInfo() {
 		long[] debitInfo = new long[2];
-		debitInfo[0] = 720753854098L;
+		debitInfo[0] = 720753854098L; 
 		debitInfo[1] = 1234;
 		return debitInfo;
 	}

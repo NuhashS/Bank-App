@@ -1,12 +1,30 @@
 package bankApp;
 
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import javax.swing.*;
 
 public class BankApplication {
 	
 	public static void main(String[] args) {
+	
+		
+		/*
+		JFrame f=new JFrame();
+		JButton b=new JButton("click");//creating instance of JButton  
+		b.setBounds(130,100,100, 40);//x axis, y axis, width, height  
+		
+		f.add(b);//adding button in JFrame  
+		
+		f.setSize(400,400);//400 width and 500 height  
+		f.setLayout(new FlowLayout(2));//using no layout managers  
+		f.setVisible(true);//making the frame visible  
+		*/
+		
+		Layout mylayout = new Layout("My Custom Layout");
+		mylayout.setVisible(true); 
 		
 		List<Account> accounts = new LinkedList<Account>();
 		String file = "C:\\Users\\nuhash\\Desktop\\Projects\\Bank-App\\bankInfo.csv";
@@ -67,7 +85,7 @@ public class BankApplication {
 		for(int i = 0; i < accounts.size(); i++) {
 			if(accounts.get(i).loginInfo()[0] == debitCardNum && accounts.get(i).loginInfo()[1] == debitCardPIN) {
 				System.out.println("Login accepted.");
-				transaction(accounts);
+				transaction(accounts, i);
 				return;
 			}
 		}
@@ -80,41 +98,28 @@ public class BankApplication {
 		for(int i = 0; i < accounts.size(); i++) {
 			if(accounts.get(i).loginInfo()[0] == safetyDepositBoxID && accounts.get(i).loginInfo()[1] == safetyDepositBoxKey) {
 				System.out.println("Login accepted.");
-				transaction(accounts);
+				transaction(accounts, i);
 				return;
 			}
 		}
 		System.out.println("Login failed. Please try again.");
 	}
 	
-	private static void transaction(List<Account> accounts) {
+	private static void transaction(List<Account> accounts, int accountID) {
 		Scanner in = new Scanner(System.in);
-		System.out.println("What would operation would you like to do. "+	
+		System.out.println("What operation would you like to perform? "+	
 				"\nType D for Deposit, W for Withdraw or T for Transfer: ");
 		String answer = in.next();
 		if(answer.equals("D")) {
 			System.out.println("How much would you like to deposit:");
 			double amount = in.nextDouble();
-			accounts.get(1).deposit(amount);
-			System.out.println("Would you like to perform another transaction?");
-			answer = in.next();
-			if(answer.equals("Y") || answer.equals("Yes")) {
-				transaction(accounts);
-			}
-			else if(answer.equals("N") || answer.equals("No")) {
-				return;
-			}
-			
-			else {
-				System.out.println("Invalid option");
-				return;
-			}
+			accounts.get(accountID).deposit(amount, "yes");
 		}
 
 		else if(answer.equals("W")) {
 			System.out.println("How much would you like to withdraw:");
 			double amount = in.nextDouble();
-			accounts.get(1).withdraw(amount);;
+			accounts.get(accountID).withdraw(amount, "yes");
 		}
 
 		else if(answer.equals("T")) {
@@ -124,19 +129,35 @@ public class BankApplication {
 			double amount = in.nextDouble();
 			System.out.println("To whom: ");
 			answer = in.next();
+			
+			boolean realAccount = false;
+			
 			for(int i = 0; i < accounts.size(); i++) {
 				if(accounts.get(i).findAccountName().equals(answer)) {
-					accounts.get(i).deposit(amount);
-					accounts.get(1).transfer(accountType, answer, amount);
-					return;
+					accounts.get(i).deposit(amount, "no");
+					accounts.get(accountID).transfer(accountType, answer, amount);
+					realAccount = true;
+					break;
 				}
 			}
-
-			System.out.println("Cannot not find account holder. Please try a different name.");		
+			if(!realAccount) {
+				System.out.println("Cannot not find account holder. Please try a different name.");
+			}	
+		}
+		
+		System.out.println("Would you like to perform another transaction?");
+		answer = in.next();
+		
+		if(answer.equals("Y") || answer.equals("Yes")) {
+			transaction(accounts, accountID);
+		}
+		else if(answer.equals("N") || answer.equals("No")) {
+			return;
 		}
 		
 		else {
-			System.out.println("Invalid option.");
+			System.out.println("Invalid option");
+			return;
 		}
 	}
 

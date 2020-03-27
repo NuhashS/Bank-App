@@ -1,6 +1,8 @@
 package bankApp;
 
+import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 public abstract class Account implements IBaseRate{
 	//List common properties for Savings and Chequing accounts
@@ -41,21 +43,36 @@ public abstract class Account implements IBaseRate{
 	
 	public abstract long[] loginInfo();
 	
-	public void deposit(double amount){
+	public void deposit(double amount, String myBalance){
 		balance = balance + amount;
 		System.out.println("Depositing $" + amount);
-		printBalance();
+		if(myBalance.equals("yes")) {
+			printBalance();
+		}
 	}
 	
-	public void withdraw(double amount){
-		balance = balance - amount;
-		System.out.println("Withdrawing $" + amount);
-		printBalance();
+	public void withdraw(double amount, String myBalance){
+		if(amount > balance) {
+			System.out.println("Insufficient funds.");
+		}
+		else {
+			balance = balance - amount;
+			System.out.println("Withdrawing $" + amount); 
+			if(myBalance.equals("yes")) {
+				printBalance();
+			}
+		}
 	}
 	
 	public void transfer(String fromWhere, String toWhere, double amount) {
-		balance = balance + amount;
-		System.out.println("Tranfering $" + amount + " from " + fromWhere + " to " + toWhere);
+		if(amount > balance) {
+			System.out.println("Insufficient funds.");
+		}
+		else {
+			balance = balance - amount;
+			System.out.println("Tranfering $" + amount + " from " + fromWhere + " to " + toWhere);
+			printBalance();
+		}
 	}
 	
 	public void printBalance() {
