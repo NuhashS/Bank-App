@@ -16,7 +16,7 @@ public class Chequing extends Account{
 	}
 	
 	private void setDebitCard() {
-		debitCardNum = (long)(Math.random()*Math.pow(10, 12));
+		debitCardNum = (long)(Math.random()*Math.pow(10, 12)); 
 		debitCardPIN = (int)(Math.random()*Math.pow(10, 4));
 	}
 	
