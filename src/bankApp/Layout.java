@@ -19,6 +19,8 @@ public class Layout extends JFrame{
 	private Container mainPanel = this.getContentPane();
 	private JPanel loginPanel = new JPanel(new GridBagLayout());
 	private JPanel secondPanel = new JPanel(new GridBagLayout());
+	private JPanel withdrawPanel = new JPanel(new GridBagLayout());
+	private JPanel depositPanel = new JPanel(new GridBagLayout());
 	
 	public Layout(String title, LoginDatabase database) {
 		//Setting frame attributes
@@ -33,11 +35,16 @@ public class Layout extends JFrame{
 		mainPanel.setLayout(new GridBagLayout());
 		mainPanel.add(loginPanel);
 		mainPanel.add(secondPanel);
+		mainPanel.add(withdrawPanel);
+		mainPanel.add(depositPanel);
 		secondPanel.setVisible(false);
+		withdrawPanel.setVisible(false);
 		initializeMainScreen();
 		
 	}
 	
+	
+
 	private void initializeMainScreen() {
 		JButton button1 = new JButton("Login");
 		
@@ -133,11 +140,13 @@ public class Layout extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(withdraw.isSelected()) {
-					JOptionPane.showMessageDialog(null, "Withdrawing");
+					secondPanel.setVisible(false);
+					intializeWithdrawScreen();
 				}
 				
 				else if(deposit.isSelected()) {
-					JOptionPane.showMessageDialog(null, "Depositing");
+					secondPanel.setVisible(false);
+					intializeDepositScreen();
 				}
 				
 				else if(transfer.isSelected()) {
@@ -150,6 +159,90 @@ public class Layout extends JFrame{
 				
 			}
 		});
+	}
+	
+	private void intializeWithdrawScreen() {
+		JButton okButton = new JButton("OK");
+		JLabel howMuch = new JLabel("How much would you like to withdraw: ");
+		JTextField amountField = new JTextField("", 15);
+		
+		GridBagConstraints howMuchTextConstraints = new GridBagConstraints();
+		howMuchTextConstraints.gridx = 0;
+		howMuchTextConstraints.gridy = 0;
+		howMuchTextConstraints.gridwidth = GridBagConstraints.REMAINDER;
+		withdrawPanel.add(howMuch, howMuchTextConstraints);
+		
+		GridBagConstraints amountFieldConstraints = new GridBagConstraints();
+		amountFieldConstraints.gridx = 0;
+		amountFieldConstraints.gridy = 1;
+		amountFieldConstraints.ipadx = 5;
+		amountFieldConstraints.ipady = 5;
+		amountFieldConstraints.insets = new Insets(10, 50, 10, 50);
+		withdrawPanel.add(amountField, amountFieldConstraints);
+		
+		GridBagConstraints okButtonConstraints = new GridBagConstraints();
+		okButtonConstraints.weightx = 0.2;
+		okButtonConstraints.gridx = 0;
+		okButtonConstraints.gridy = 2;
+		okButtonConstraints.ipadx = 5;
+		okButtonConstraints.ipady = 1;
+		okButtonConstraints.insets = new Insets(0, 0, 10, 0); 
+		withdrawPanel.add(okButton, okButtonConstraints);
+		
+		withdrawPanel.setVisible(true);
+		
+		okButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int amountRequested = Integer.parseInt(amountField.getText());
+				String message = db.withdrawAction(amountRequested);
+				JOptionPane.showMessageDialog(null, message);
+			}
+		});
+		
+	}
+	
+	private void intializeDepositScreen() {
+		JButton okButton = new JButton("OK");
+		JLabel howMuch = new JLabel("How much would you like to deposit: ");
+		JTextField amountField = new JTextField("", 15);
+		
+		GridBagConstraints howMuchTextConstraints = new GridBagConstraints();
+		howMuchTextConstraints.gridx = 0;
+		howMuchTextConstraints.gridy = 0;
+		howMuchTextConstraints.gridwidth = GridBagConstraints.REMAINDER;
+		depositPanel.add(howMuch, howMuchTextConstraints);
+		
+		GridBagConstraints amountFieldConstraints = new GridBagConstraints();
+		amountFieldConstraints.gridx = 0;
+		amountFieldConstraints.gridy = 1;
+		amountFieldConstraints.ipadx = 5;
+		amountFieldConstraints.ipady = 5;
+		amountFieldConstraints.insets = new Insets(10, 50, 10, 50);
+		depositPanel.add(amountField, amountFieldConstraints);
+		
+		GridBagConstraints okButtonConstraints = new GridBagConstraints();
+		okButtonConstraints.weightx = 0.2;
+		okButtonConstraints.gridx = 0;
+		okButtonConstraints.gridy = 2;
+		okButtonConstraints.ipadx = 5;
+		okButtonConstraints.ipady = 1;
+		okButtonConstraints.insets = new Insets(0, 0, 10, 0); 
+		depositPanel.add(okButton, okButtonConstraints);
+		
+		depositPanel.setVisible(true);
+		
+		okButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int amountRequested = Integer.parseInt(amountField.getText());
+				String message = db.depositAction(amountRequested);
+				JOptionPane.showMessageDialog(null, message);
+			}
+		});
+		
 	}
 	
 	

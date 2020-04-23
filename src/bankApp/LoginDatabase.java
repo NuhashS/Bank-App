@@ -10,6 +10,7 @@ public class LoginDatabase {
 	private List<Account> accounts = new LinkedList<Account>();
 	private String file = "C:\\Users\\nuhash\\Desktop\\Projects\\Bank-App\\bankInfo.csv";
 	private List<String[]> newAccountHolders = utilities.CSV.read(file);
+	private int accountID;
 	
 	public LoginDatabase(){
 		
@@ -42,7 +43,7 @@ public class LoginDatabase {
 			return checkingAction(accountNum, pIN);
 		}
 		
-		else if(count == 4){
+		else if(count == 3){
 			return savingsAction(accountNum, pIN);
 		}
 		
@@ -57,13 +58,10 @@ public class LoginDatabase {
 		String debitCardPIN = pIN;
 		for(int i = 0; i < accounts.size(); i++) {
 			if(String.valueOf(accounts.get(i).loginInfo()[0]).equals(debitCardNum) && String.valueOf(accounts.get(i).loginInfo()[1]).equals(debitCardPIN)) {
-				//System.out.println("Login accepted.");
-				//transaction(accounts, i);
+				accountID = i;
 				return true;
 			}
 		}
-		//System.out.println("Login failed. Please try again.");
-		
 		return false;
 	}
 	
@@ -74,10 +72,44 @@ public class LoginDatabase {
 			if(String.valueOf(accounts.get(i).loginInfo()[0]).equals(safetyDepositBoxID) && String.valueOf(accounts.get(i).loginInfo()[1]).equals(safetyDepositBoxKey)) {
 				//System.out.println("Login accepted.");
 				//transaction(accounts, i);
+				accountID = i;
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	public String withdrawAction(int amount) {
+		return accounts.get(accountID).withdraw(amount, "yes");
+	}
+	
+	public String depositAction(int amount) {
+		return accounts.get(accountID).deposit(amount, "yes");
+	}
+	
+	public String transferAction(int amount, String accountType, String answer) {
+		/*System.out.println("From which account: ");
+		String accountType = in.next();
+		System.out.println("How much would you like to transfer:");
+		double amount = in.nextDouble();
+		System.out.println("To whom: ");
+		answer = in.next();*/
+		
+		boolean realAccount = false;
+		
+		for(int i = 0; i < accounts.size(); i++) {
+			if(accounts.get(i).findAccountName().equals(answer)) {
+				accounts.get(i).deposit(amount, "no");
+				accounts.get(accountID).transfer(accountType, answer, amount);
+				realAccount = true;
+				break;
+			}
+		}
+		if(!realAccount) {
+			System.out.println("Cannot not find account holder. Please try a different name.");
+		}
+		
+		return "works";
 	}
 	
 	private static void transaction(List<Account> accounts, int accountID) {

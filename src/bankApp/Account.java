@@ -43,24 +43,28 @@ public abstract class Account implements IBaseRate{
 	
 	public abstract long[] loginInfo();
 	
-	public void deposit(double amount, String myBalance){
+	public String deposit(double amount, String myBalance){
 		balance = balance + amount;
-		System.out.println("Depositing $" + amount);
+		String depositConfirmation = "Depositing $" + amount;
+		//System.out.println("Depositing $" + amount);
 		if(myBalance.equals("yes")) {
-			printBalance();
+			return depositConfirmation + "\n" + printBalance();
 		}
+		
+		return depositConfirmation;
 	}
 	
-	public void withdraw(double amount, String myBalance){
-		if(amount > balance) {
-			System.out.println("Insufficient funds."); 
+	public String withdraw(double amount, String myBalance){
+		if(amount > balance) { 
+			return "Insufficient funds.";
 		}
 		else {
 			balance = balance - amount;
-			System.out.println("Withdrawing $" + amount); 
+			String withdrawConfirmation = "Withdrawing $" + amount;
 			if(myBalance.equals("yes")) {
-				printBalance();
+				return withdrawConfirmation +  "\n" + printBalance();
 			}
+			return withdrawConfirmation;
 		}
 	}
 	
@@ -71,12 +75,12 @@ public abstract class Account implements IBaseRate{
 		else {
 			balance = balance - amount;
 			System.out.println("Tranfering $" + amount + " from " + fromWhere + " to " + toWhere);
-			printBalance();
+			//printBalance();
 		}
 	}
 	
-	public void printBalance() {
-		System.out.println("Your balance is: $" + balance);
+	public String printBalance() {
+		return "Your balance is: $" + balance;
 	}
 	
 	public void showInfo() {

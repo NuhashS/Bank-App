@@ -26,8 +26,8 @@ public class Savings extends Account{
 	@Override
 	public long[] loginInfo() {
 		long[] safetyDepositBoxInfo = new long[2];
-		safetyDepositBoxInfo[0] = safetyDepositBoxID;
-		safetyDepositBoxInfo[1] = safetyDepositBoxKey;
+		safetyDepositBoxInfo[0] = 123;
+		safetyDepositBoxInfo[1] = 4321;
 		return safetyDepositBoxInfo;
 	}
 	
