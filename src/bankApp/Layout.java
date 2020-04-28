@@ -40,6 +40,7 @@ public class Layout extends JFrame{
 		secondPanel.setVisible(false);
 		withdrawPanel.setVisible(false);
 		initializeMainScreen();
+		//initializeTransferScreen();
 		
 	}
 	
@@ -150,7 +151,8 @@ public class Layout extends JFrame{
 				}
 				
 				else if(transfer.isSelected()) {
-					JOptionPane.showMessageDialog(null, "Transfering");
+					secondPanel.setVisible(false);
+					initializeTransferScreen();
 				}
 				
 				else {
@@ -245,5 +247,67 @@ public class Layout extends JFrame{
 		
 	}
 	
+	private void initializeTransferScreen() {
+		JPanel transferPanel = new JPanel(new GridBagLayout());
+		JButton okButton = new JButton("OK");
+		JLabel howMuch = new JLabel("How much would you like to transfer: ");
+		JLabel toWho = new JLabel("Who would you like to transfer to: ");
+		JTextField amountField = new JTextField("", 15);
+		JTextField recipientNameField = new JTextField("", 15);
+		
+		GridBagConstraints toWhoTextConstraints = new GridBagConstraints();
+		toWhoTextConstraints.gridx = 0;
+		toWhoTextConstraints.gridy = 0;
+		toWhoTextConstraints.gridwidth = GridBagConstraints.REMAINDER;
+		transferPanel.add(toWho, toWhoTextConstraints);
+		
+		GridBagConstraints recipientNameFieldConstraints = new GridBagConstraints();
+		recipientNameFieldConstraints.gridx = 0;
+		recipientNameFieldConstraints.gridy = 1;
+		recipientNameFieldConstraints.ipadx = 5;
+		recipientNameFieldConstraints.ipady = 5;
+		recipientNameFieldConstraints.insets = new Insets(10, 50, 10, 50);
+		transferPanel.add(recipientNameField, recipientNameFieldConstraints);
+		
+		GridBagConstraints howMuchTextConstraints = new GridBagConstraints();
+		howMuchTextConstraints.gridx = 0;
+		howMuchTextConstraints.gridy = 2;
+		howMuchTextConstraints.gridwidth = GridBagConstraints.REMAINDER;
+		transferPanel.add(howMuch, howMuchTextConstraints);
+		
+		GridBagConstraints amountFieldConstraints = new GridBagConstraints();
+		amountFieldConstraints.gridx = 0;
+		amountFieldConstraints.gridy = 3;
+		amountFieldConstraints.ipadx = 5;
+		amountFieldConstraints.ipady = 5;
+		amountFieldConstraints.insets = new Insets(10, 50, 10, 50);
+		transferPanel.add(amountField, amountFieldConstraints);
+		
+		GridBagConstraints okButtonConstraints = new GridBagConstraints();
+		okButtonConstraints.weightx = 0.2;
+		okButtonConstraints.gridx = 0;
+		okButtonConstraints.gridy = 4;
+		okButtonConstraints.ipadx = 5;
+		okButtonConstraints.ipady = 1;
+		okButtonConstraints.insets = new Insets(0, 0, 10, 0); 
+		transferPanel.add(okButton, okButtonConstraints);
+		
+		mainPanel.add(transferPanel);
+		transferPanel.setVisible(true);
+		
+		okButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int amountRequested = Integer.parseInt(amountField.getText());
+				String recipentRequested = String.valueOf(recipientNameField.getText());
+				
+				String actionComplete = db.transferAction(amountRequested, recipentRequested);
+
+				JOptionPane.showMessageDialog(null, actionComplete);
+				
+			}
+		});
+	}
 	
 }

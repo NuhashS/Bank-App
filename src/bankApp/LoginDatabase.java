@@ -70,8 +70,6 @@ public class LoginDatabase {
 		String safetyDepositBoxKey = pIN;
 		for(int i = 0; i < accounts.size(); i++) {
 			if(String.valueOf(accounts.get(i).loginInfo()[0]).equals(safetyDepositBoxID) && String.valueOf(accounts.get(i).loginInfo()[1]).equals(safetyDepositBoxKey)) {
-				//System.out.println("Login accepted.");
-				//transaction(accounts, i);
 				accountID = i;
 				return true;
 			}
@@ -87,32 +85,19 @@ public class LoginDatabase {
 		return accounts.get(accountID).deposit(amount, "yes");
 	}
 	
-	public String transferAction(int amount, String accountType, String answer) {
-		/*System.out.println("From which account: ");
-		String accountType = in.next();
-		System.out.println("How much would you like to transfer:");
-		double amount = in.nextDouble();
-		System.out.println("To whom: ");
-		answer = in.next();*/
-		
-		boolean realAccount = false;
-		
+	public String transferAction(int amount, String answer) {
+	
 		for(int i = 0; i < accounts.size(); i++) {
 			if(accounts.get(i).findAccountName().equals(answer)) {
 				accounts.get(i).deposit(amount, "no");
-				accounts.get(accountID).transfer(accountType, answer, amount);
-				realAccount = true;
-				break;
+				return accounts.get(accountID).transfer(answer, amount);
 			}
 		}
-		if(!realAccount) {
-			System.out.println("Cannot not find account holder. Please try a different name.");
-		}
 		
-		return "works";
+		return "Cannot find account holder. Please try a different name";
 	}
 	
-	private static void transaction(List<Account> accounts, int accountID) {
+	/*private static void transaction(List<Account> accounts, int accountID) {
 		Scanner in = new Scanner(System.in);
 		System.out.println("What operation would you like to perform? "+	
 				"\nType D for Deposit, W for Withdraw or T for Transfer: ");
@@ -166,6 +151,6 @@ public class LoginDatabase {
 			System.out.println("Invalid option");
 			return; 
 		}
-	}
+	}*/
 	
 }

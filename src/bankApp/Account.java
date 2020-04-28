@@ -24,6 +24,7 @@ public abstract class Account implements IBaseRate{
 		this.accountNum = setAccountNumber(this.sSN);
 		setRate();	
 	}
+	
 	// List common methods
 	
 	private String setAccountNumber(int sSN) {
@@ -68,14 +69,13 @@ public abstract class Account implements IBaseRate{
 		}
 	}
 	
-	public void transfer(String fromWhere, String toWhere, double amount) {
+	public String transfer(String toWhere, double amount) {
 		if(amount > balance) {
-			System.out.println("Insufficient funds.");
+			return "Insufficient funds.";
 		}
 		else {
 			balance = balance - amount;
-			System.out.println("Tranfering $" + amount + " from " + fromWhere + " to " + toWhere);
-			//printBalance();
+			return "Transfer complete. Transfered $" + amount + " to " + toWhere + ".\n" + printBalance();
 		}
 	}
 	
