@@ -21,6 +21,8 @@ public class Layout extends JFrame{
 	private JPanel secondPanel = new JPanel(new GridBagLayout());
 	private JPanel withdrawPanel = new JPanel(new GridBagLayout());
 	private JPanel depositPanel = new JPanel(new GridBagLayout());
+	private JPanel transferPanel = new JPanel(new GridBagLayout());
+	private JPanel loopPanel = new JPanel(new GridBagLayout());
 	
 	public Layout(String title, LoginDatabase database) {
 		//Setting frame attributes
@@ -33,20 +35,21 @@ public class Layout extends JFrame{
 		db = database;
 
 		mainPanel.setLayout(new GridBagLayout());
-		mainPanel.add(loginPanel);
-		mainPanel.add(secondPanel);
-		mainPanel.add(withdrawPanel);
-		mainPanel.add(depositPanel);
-		secondPanel.setVisible(false);
-		withdrawPanel.setVisible(false);
+		
 		initializeMainScreen();
-		//initializeTransferScreen();
+		initializeBankActionsScreen();
+		initializeWithdrawScreen();
+		initializeDepositScreen();
+		initializeTransferScreen();
+		performAnotherAction();
+		loginPanel.setVisible(true);
 		
 	}
 	
 	
 
 	private void initializeMainScreen() {
+		
 		JButton button1 = new JButton("Login");
 		
 		GridBagConstraints usernameTextfieldConstraints = new GridBagConstraints();
@@ -56,7 +59,7 @@ public class Layout extends JFrame{
 		usernameTextfieldConstraints.ipady = 5;
 		usernameTextfieldConstraints.insets = new Insets(10, 50, 10, 50);
 		loginPanel.add(username, usernameTextfieldConstraints);
-		
+
 		GridBagConstraints passwordTextfieldConstraints = new GridBagConstraints();
 		passwordTextfieldConstraints.weightx = 0.5;
 		passwordTextfieldConstraints.gridx = 0;
@@ -65,7 +68,7 @@ public class Layout extends JFrame{
 		passwordTextfieldConstraints.ipady = 5;
 		passwordTextfieldConstraints.insets = new Insets(10, 0, 10, 0);
 		loginPanel.add(password, passwordTextfieldConstraints);
-		
+
 		GridBagConstraints button1Constraints = new GridBagConstraints();
 		button1Constraints.weightx = 0.2;
 		button1Constraints.gridx = 0;
@@ -74,6 +77,9 @@ public class Layout extends JFrame{
 		button1Constraints.ipady = 5;
 		button1Constraints.insets = new Insets(10, 0, 10, 0); 
 		loginPanel.add(button1, button1Constraints);
+
+		mainPanel.add(loginPanel);
+		loginPanel.setVisible(false);
 		
 		button1.addActionListener(new ActionListener() {
 			
@@ -83,8 +89,10 @@ public class Layout extends JFrame{
 				String mypassword = String.valueOf(password.getPassword()); 
 				
 				if(db.accountCheck(myusername, mypassword)) {
+					username.setText("");
+					password.setText("");
 					loginPanel.setVisible(false);
-					initializeBankActionsScreen();
+					secondPanel.setVisible(true);
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Invalid Password");
@@ -95,7 +103,7 @@ public class Layout extends JFrame{
 	}
 	
 	private void initializeBankActionsScreen() {
-		secondPanel.setVisible(true);
+			
 		JButton okButton = new JButton("OK");
 		JLabel chooseOperationText = new JLabel("What operation would you like to perform:");
 		ButtonGroup bankActions = new ButtonGroup();
@@ -136,23 +144,26 @@ public class Layout extends JFrame{
 		okButtonConstraints.gridy = 2;
 		secondPanel.add(okButton,okButtonConstraints);
 		
+		mainPanel.add(secondPanel);
+		secondPanel.setVisible(false);
+		
 		okButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(withdraw.isSelected()) {
 					secondPanel.setVisible(false);
-					intializeWithdrawScreen();
+					withdrawPanel.setVisible(true);
 				}
 				
 				else if(deposit.isSelected()) {
 					secondPanel.setVisible(false);
-					intializeDepositScreen();
+					depositPanel.setVisible(true);
 				}
 				
 				else if(transfer.isSelected()) {
 					secondPanel.setVisible(false);
-					initializeTransferScreen();
+					transferPanel.setVisible(true);
 				}
 				
 				else {
@@ -163,7 +174,8 @@ public class Layout extends JFrame{
 		});
 	}
 	
-	private void intializeWithdrawScreen() {
+	private void initializeWithdrawScreen() {
+		
 		JButton okButton = new JButton("OK");
 		JLabel howMuch = new JLabel("How much would you like to withdraw: ");
 		JTextField amountField = new JTextField("", 15);
@@ -191,7 +203,8 @@ public class Layout extends JFrame{
 		okButtonConstraints.insets = new Insets(0, 0, 10, 0); 
 		withdrawPanel.add(okButton, okButtonConstraints);
 		
-		withdrawPanel.setVisible(true);
+		mainPanel.add(withdrawPanel);
+		withdrawPanel.setVisible(false);
 		
 		okButton.addActionListener(new ActionListener() {
 			
@@ -200,12 +213,18 @@ public class Layout extends JFrame{
 				int amountRequested = Integer.parseInt(amountField.getText());
 				String message = db.withdrawAction(amountRequested);
 				JOptionPane.showMessageDialog(null, message);
+				
+				amountField.setText("");
+				withdrawPanel.setVisible(false);
+				loopPanel.setVisible(true);
+				
 			}
 		});
 		
 	}
 	
-	private void intializeDepositScreen() {
+	private void initializeDepositScreen() {
+		
 		JButton okButton = new JButton("OK");
 		JLabel howMuch = new JLabel("How much would you like to deposit: ");
 		JTextField amountField = new JTextField("", 15);
@@ -233,7 +252,8 @@ public class Layout extends JFrame{
 		okButtonConstraints.insets = new Insets(0, 0, 10, 0); 
 		depositPanel.add(okButton, okButtonConstraints);
 		
-		depositPanel.setVisible(true);
+		mainPanel.add(depositPanel);
+		depositPanel.setVisible(false);
 		
 		okButton.addActionListener(new ActionListener() {
 			
@@ -242,13 +262,17 @@ public class Layout extends JFrame{
 				int amountRequested = Integer.parseInt(amountField.getText());
 				String message = db.depositAction(amountRequested);
 				JOptionPane.showMessageDialog(null, message);
+				
+				amountField.setText("");
+				depositPanel.setVisible(false);
+				loopPanel.setVisible(true);
 			}
 		});
 		
 	}
 	
 	private void initializeTransferScreen() {
-		JPanel transferPanel = new JPanel(new GridBagLayout());
+		
 		JButton okButton = new JButton("OK");
 		JLabel howMuch = new JLabel("How much would you like to transfer: ");
 		JLabel toWho = new JLabel("Who would you like to transfer to: ");
@@ -293,7 +317,7 @@ public class Layout extends JFrame{
 		transferPanel.add(okButton, okButtonConstraints);
 		
 		mainPanel.add(transferPanel);
-		transferPanel.setVisible(true);
+		transferPanel.setVisible(false);
 		
 		okButton.addActionListener(new ActionListener() {
 			
@@ -303,8 +327,73 @@ public class Layout extends JFrame{
 				String recipentRequested = String.valueOf(recipientNameField.getText());
 				
 				String actionComplete = db.transferAction(amountRequested, recipentRequested);
-
 				JOptionPane.showMessageDialog(null, actionComplete);
+				
+				amountField.setText("");
+				recipientNameField.setText("");
+				transferPanel.setVisible(false);
+				loopPanel.setVisible(true);
+				
+			}
+		});
+	}
+	
+	private void performAnotherAction() {
+		
+		JButton okButton = new JButton("OK");
+		JLabel chooseOperationText = new JLabel("Would you like to perform another action:");
+		ButtonGroup actionsGroup = new ButtonGroup();
+		
+		//Right now, having the text and buttons on different rows looks weird, so for now, they'll be on the same row.
+		GridBagConstraints chooseOperationTextConstraints = new GridBagConstraints();
+		//chooseOperationTextConstraints.gridwidth = GridBagConstraints.REMAINDER;
+		//chooseOperationTextConstraints.gridx = 0;
+		//chooseOperationTextConstraints.gridy = 0;
+		loopPanel.add(chooseOperationText, chooseOperationTextConstraints);
+		
+		JRadioButton yesChoice = new JRadioButton("Yes");
+		actionsGroup.add(yesChoice);
+		GridBagConstraints yesChoiceConstraints = new GridBagConstraints();
+		//yesChoiceConstraints.gridx = 0;
+		//yesChoiceConstraints.gridy = 1;
+		yesChoiceConstraints.ipadx = 5;
+		yesChoiceConstraints.ipady = 5;
+		loopPanel.add(yesChoice, yesChoiceConstraints);
+		
+		JRadioButton noChoice = new JRadioButton("No");
+		actionsGroup.add(noChoice);
+		GridBagConstraints noChoiceConstraints = new GridBagConstraints();
+		/*noChoiceConstraints.gridx = 1;
+		noChoiceConstraints.gridy = 1;*/
+		noChoiceConstraints.ipadx = 5;
+		noChoiceConstraints.ipady = 5;
+		loopPanel.add(noChoice, noChoiceConstraints);
+		
+		GridBagConstraints okButtonConstraints = new GridBagConstraints();
+		okButtonConstraints.gridwidth = GridBagConstraints.REMAINDER;
+		okButtonConstraints.gridy = 2;
+		loopPanel.add(okButton,okButtonConstraints);
+		
+		mainPanel.add(loopPanel);
+		loopPanel.setVisible(false);
+		
+		okButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(yesChoice.isSelected()) {
+					loopPanel.setVisible(false);
+					secondPanel.setVisible(true);;
+				}
+				
+				else if(noChoice.isSelected()) {
+					JOptionPane.showMessageDialog(null, "Thank you for banking with Generic Bank. Have a nice day.");
+					System.exit(0);
+				}
+				
+				else {
+					JOptionPane.showMessageDialog(null, "Invalid Operation");
+				}
 				
 			}
 		});
